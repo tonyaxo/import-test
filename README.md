@@ -10,12 +10,12 @@ INSTALLATION
 docker-compose up -d
 ~~~
 
-###  3 Apply migrations
+###  3 Run composer
 
 ~~~
-docker-compose exec php yii migrate --interactive=0
+docker-compose exec php composer install --prefer-dist
 ~~~
-  
+
 ###  4 Create database
 
 ~~~
@@ -23,6 +23,12 @@ docker-compose exec php yii migrate --interactive=0
 docker-compose exec mysql /opt/create_database
 ~~~
 
+###  5 Apply migrations
+
+~~~
+docker-compose exec php yii migrate --interactive=0
+~~~
+  
 You can then access the application through the following URL:
 
     http://127.0.0.1:8000

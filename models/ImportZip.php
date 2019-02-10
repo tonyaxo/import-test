@@ -129,7 +129,7 @@ class ImportZip implements FileImportInterface
     public function backupImages(): void
     {
         $imagesDir = Offer::getImagesDir();
-        $this->tmpImgDir = \Yii::getAlias('@runtime') .  uniqid('tmp_offer_imgs_');
+        $this->tmpImgDir = \Yii::getAlias('@runtime') .  DIRECTORY_SEPARATOR . uniqid('tmp_offer_imgs_');
         FileHelper::copyDirectory($imagesDir, $this->tmpImgDir);
         if ($this->imagesBackupExists()) {
             FileHelper::removeDirectory($imagesDir);

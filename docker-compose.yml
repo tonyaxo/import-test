@@ -7,6 +7,9 @@ services:
       - ./:/app:delegated
     ports:
       - '8000:80'
+    environment:
+      - COMPOSER=/app/composer.json
+      - COMPOSER_VENDOR_DIR=/app/vendor
   mysql:
     image: mysql:5.7
     volumes:

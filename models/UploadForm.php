@@ -3,6 +3,7 @@
 namespace app\models;
 
 use yii\base\Model;
+use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
 
 /**
@@ -27,8 +28,10 @@ class UploadForm extends Model
 
     public function upload(): bool
     {
-        if ($this->validate()) {
-            $this->filename = \Yii::getAlias('@runtime') . '/uploads/' . $this->zipFile->baseName . '.' . $this->zipFile->extension;
+        $uploadDir = \Yii::getAlias('@runtime') . DIRECTORY_SEPARATOR . 'uploads';
+        if ($this->validate() && FileHelper::createDirectory($uploadDir)) {
+
+            $this->filename = $uploadDir . DIRECTORY_SEPARATOR . $this->zipFile->baseName . '.' . $this->zipFile->extension;
             $this->zipFile->saveAs($this->filename);
             return true;
         } else {
