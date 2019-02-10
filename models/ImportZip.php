@@ -129,13 +129,17 @@ class ImportZip implements FileImportInterface
     public function backupImages(): void
     {
         $imagesDir = Offer::getImagesDir();
-        $this->tmpImgDir = \Yii::getAlias('@runtime') .  DIRECTORY_SEPARATOR . uniqid('tmp_offer_imgs_');
-        FileHelper::copyDirectory($imagesDir, $this->tmpImgDir);
-        if ($this->imagesBackupExists()) {
-            FileHelper::removeDirectory($imagesDir);
-            FileHelper::createDirectory($imagesDir);
+        if ($this->directoryExists($imagesDir)) {
+            $this->tmpImgDir = \Yii::getAlias('@runtime') .  DIRECTORY_SEPARATOR . uniqid('tmp_offer_imgs_');
+            FileHelper::copyDirectory($imagesDir, $this->tmpImgDir);
+            if ($this->imagesBackupExists()) {
+                FileHelper::removeDirectory($imagesDir);
+                FileHelper::createDirectory($imagesDir);
+            } else {
+                throw new \Error('Can not create images backup');
+            }
         } else {
-            throw new \Error('Can not create images backup');
+            FileHelper::createDirectory($imagesDir);
         }
     }
 
@@ -325,7 +329,16 @@ class ImportZip implements FileImportInterface
      */
     protected function imagesBackupExists(): bool
     {
-        return file_exists($this->tmpImgDir) && is_dir($this->tmpImgDir);
+        return $this->directoryExists($this->tmpImgDir);
+    }
+
+    /**
+     * @param string $path
+     * @return bool
+     */
+    protected function directoryExists(string $path): bool
+    {
+        return file_exists($path) && is_dir($path);
     }
 
     /**
