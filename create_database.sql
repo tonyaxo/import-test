@@ -1,0 +1,2 @@
+CREATE DATABASE import CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE import_tests CHARACTER SET utf8 COLLATE utf8_general_ci;
